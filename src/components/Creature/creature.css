@@ -1,0 +1,106 @@
+.creature {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 1.1s var(--ease-cinematic), transform 1.1s var(--ease-cinematic);
+  cursor: default;
+}
+
+.creature.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.creature__parallax {
+  will-change: transform;
+}
+
+.creature__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  animation: creature-idle 6.5s ease-in-out infinite;
+  animation-delay: calc(var(--creature-delay, 0) * 1s);
+  transition: transform 0.4s var(--ease-cinematic);
+}
+
+.creature__inner.is-hovered {
+  transform: scale(1.08);
+}
+
+.creature__asset {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+  user-select: none;
+  pointer-events: none;
+}
+
+.creature__ripple {
+  position: absolute;
+  inset: -40%;
+  width: 180%;
+  height: 180%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.creature__label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-cinematic);
+  z-index: 5;
+}
+
+.creature:focus-visible .creature__label,
+.creature:hover .creature__label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.creature__label-name {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-primary);
+}
+
+.creature__label-tag {
+  font-family: var(--font-body);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  color: var(--fg-faint);
+}
+
+@keyframes creature-idle {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-1.4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  .creature__inner {
+    animation: none;
+  }
+}

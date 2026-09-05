@@ -1,0 +1,19 @@
+<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(66,86)">
+    <!-- trailing fin/tail, swept back like it's mid-motion -->
+    <path d="M 18,2 C 34,-2 42,2 46,-6 C 40,4 40,10 46,16 C 38,14 30,16 18,10 Z"
+          fill="#1a1712" stroke="#453d2f" stroke-width="1"/>
+
+    <!-- lean, low body -->
+    <path d="M -26,6 C -28,-8 -16,-16 0,-15 C 14,-14 22,-6 20,4 C 18,13 -22,16 -26,6 Z"
+          fill="#1c1913" stroke="#463f2f" stroke-width="1"/>
+
+    <!-- single focused eye -->
+    <path d="M -12,-3 L -2,-3" stroke="#f1720c" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- small legs, mid-stride -->
+    <path d="M -18,13 L -22,20" stroke="#1c1913" stroke-width="4" stroke-linecap="round"/>
+    <path d="M -4,15 L -4,21" stroke="#1c1913" stroke-width="4" stroke-linecap="round"/>
+    <path d="M 10,13 L 15,19" stroke="#1c1913" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

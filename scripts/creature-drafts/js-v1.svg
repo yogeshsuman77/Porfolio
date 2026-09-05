@@ -1,0 +1,29 @@
+<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(66,84) rotate(-6)">
+    <!-- little chaos spark -->
+    <path d="M 30,-30 L 33,-24 L 39,-25 L 34,-20 L 37,-14 L 31,-18 L 26,-14 L 28,-20 L 22,-23 L 29,-23 Z" fill="#f1720c" opacity="0.85"/>
+
+    <!-- tail, kinked up -->
+    <path d="M 20,14 C 30,14 32,4 24,0 C 30,0 34,-8 26,-10" stroke="#201d18" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+    <!-- body -->
+    <path d="M -24,4 C -26,-14 -12,-26 2,-24 C 18,-22 24,-8 20,6 C 16,18 -18,18 -24,4 Z"
+          fill="#1c1912" stroke="#463f2f" stroke-width="1"/>
+
+    <!-- perked ear -->
+    <path d="M -12,-22 C -16,-32 -8,-36 -4,-28" fill="#1c1912" stroke="#463f2f" stroke-width="1"/>
+    <!-- flopped ear -->
+    <path d="M 10,-21 C 18,-24 22,-16 14,-12" fill="#1c1912" stroke="#463f2f" stroke-width="1"/>
+
+    <!-- mismatched eyes: one wide, one squint -->
+    <circle cx="-7" cy="-6" r="3.4" fill="#f1720c"/>
+    <path d="M 6,-6 Q 11,-3 15,-6" stroke="#f1720c" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- crooked impish grin -->
+    <path d="M -6,4 Q 2,10 12,3" stroke="#8a7f6a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+    <!-- feet, one lifted mid-mischief -->
+    <ellipse cx="-14" cy="19" rx="5" ry="2.6" fill="#1c1912"/>
+    <ellipse cx="8" cy="21" rx="5" ry="2.6" fill="#1c1912" transform="rotate(-18 8 21)"/>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+.vein-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.vein-field__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  mix-blend-mode: screen;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.vein-field__svg--breathing {
+  animation: vein-breathe 7s ease-in-out infinite;
+}
+
+@keyframes vein-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.82; }
+  50% { transform: scale(1.018); opacity: 1; }
+}
+
+.vein-field--simple .vein-field__background {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vein-field__svg--breathing {
+    animation: none;
+  }
+}

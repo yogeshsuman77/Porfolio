@@ -1,0 +1,78 @@
+.project-image {
+  position: relative;
+  width: 100%;
+}
+
+.project-image__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #0a0a0a;
+  border-radius: 2px;
+}
+
+.project-image__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.project-image__layer--mono {
+  filter: grayscale(1) contrast(1.05) brightness(0.92);
+  z-index: 1;
+}
+
+.project-image__layer--color {
+  z-index: 3;
+  opacity: 0;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.project-image__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.project-image__source-video {
+  position: absolute;
+  top: 0;
+  left: -99999px;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.project-image__drop {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  opacity: 0;
+  z-index: 4;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+.project-image__ripple {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.project-image.is-revealed-static .project-image__layer--color {
+  opacity: 1;
+  transition: opacity 1.1s ease;
+}

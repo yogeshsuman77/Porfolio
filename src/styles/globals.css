@@ -1,0 +1,65 @@
+html {
+  background: var(--bg-hero);
+  scroll-behavior: auto; /* Lenis governs actual smoothing */
+}
+
+body {
+  background: #050505;
+  color: var(--fg-primary);
+  overflow-x: hidden;
+}
+
+#top {
+  position: relative;
+  z-index: 1;
+}
+
+section {
+  position: relative;
+}
+
+::selection {
+  background: var(--ink);
+  color: #0a0a0a;
+}
+
+a {
+  color: inherit;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.cinematic-cursor {
+  position: fixed;
+  top: -7px;
+  left: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--fg-primary);
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 10000;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

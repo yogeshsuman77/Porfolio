@@ -1,0 +1,54 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow-express" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .express-bob { animation: express-bob 4.2s ease-in-out infinite; transform-origin: 92px 168px; }
+    .express-wrench { animation: express-tighten 1.6s ease-in-out infinite; transform-origin: 152px 118px; }
+    .express-div { animation: express-shake 1.6s ease-in-out infinite; transform-origin: 152px 128px; }
+    @keyframes express-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+    @keyframes express-tighten { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(8deg); } }
+    @keyframes express-shake { 0%,45%,55%,100% { transform: translateX(0); } 48% { transform: translateX(-1px); } 52% { transform: translateX(1px); } }
+    @media (prefers-reduced-motion: reduce) {
+      .express-wrench, .express-div, .express-bob { animation: none; }
+    }
+  </style>
+
+  <g class="express-bob">
+    <!-- stubby feet, one kicked out mid-focus -->
+    <ellipse cx="72" cy="176" rx="12" ry="6.5" fill="#171512"/>
+    <ellipse cx="104" cy="178" rx="12" ry="6.5" fill="#171512" transform="rotate(10 104 178)"/>
+
+    <!-- round, slightly forward-leaning body -->
+    <ellipse cx="88" cy="132" rx="40" ry="38" fill="#17150f" stroke="#c9cdd3" stroke-width="1.5" stroke-opacity="0.5"/>
+
+    <!-- little nubby ears -->
+    <ellipse cx="58" cy="104" rx="7" ry="9" fill="#17150f" stroke="#c9cdd3" stroke-width="1.1" stroke-opacity="0.4"/>
+    <ellipse cx="118" cy="104" rx="7" ry="9" fill="#17150f" stroke="#c9cdd3" stroke-width="1.1" stroke-opacity="0.4"/>
+
+    <!-- focused eyes: one narrowed in concentration -->
+    <circle cx="76" cy="128" r="5" fill="#c9cdd3" filter="url(#glow-express)"/>
+    <path d="M 96,128 Q 102,124 108,128" stroke="#c9cdd3" stroke-width="2.6" fill="none" stroke-linecap="round" filter="url(#glow-express)"/>
+    <!-- little content smile, tongue-out concentration -->
+    <path d="M 78,146 Q 88,152 98,145" stroke="#8a8f96" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+    <!-- arm reaching out to the work -->
+    <path d="M 118,128 C 130,124 138,120 142,112" stroke="#17150f" stroke-width="10" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- the "div" it's servicing -->
+  <g class="express-div">
+    <rect x="140" y="118" width="38" height="26" rx="5" fill="none" stroke="#c9cdd3" stroke-width="2" stroke-opacity="0.85"/>
+    <path d="M 147,131 L 171,131" stroke="#c9cdd3" stroke-width="1.6" stroke-opacity="0.6"/>
+    <circle cx="176" cy="118" r="4.6" fill="none" stroke="#c9cdd3" stroke-width="1.6" stroke-opacity="0.8"/>
+  </g>
+
+  <!-- screwdriver, tightening the bolt at the div's corner -->
+  <g class="express-wrench" filter="url(#glow-express)">
+    <path d="M 130,108 L 176,126" stroke="#c9cdd3" stroke-width="3" stroke-linecap="round"/>
+    <path d="M 126,104 L 134,112" stroke="#c9cdd3" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

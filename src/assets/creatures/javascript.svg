@@ -1,0 +1,53 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow-js" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .js-brace { animation: js-wobble 3.4s ease-in-out infinite; transform-origin: 148px 112px; }
+    .js-spark { animation: js-flicker 2.6s ease-in-out infinite; }
+    @keyframes js-wobble { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+    @keyframes js-flicker { 0%,100% { opacity: 0.5; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) {
+      .js-brace, .js-spark { animation: none; }
+    }
+  </style>
+
+  <g transform="rotate(-5 100 110)">
+    <!-- chaos spark -->
+    <path class="js-spark" transform="translate(148,74)" d="M 0,-11 L 3,-3 L 11,-4 L 5,2 L 7,10 L 0,5 L -7,10 L -5,2 L -11,-4 L -3,-3 Z"
+          fill="#f0db4f" filter="url(#glow-js)"/>
+
+    <!-- tail, kinked up -->
+    <path d="M 118,140 C 132,140 136,126 126,120 C 134,120 140,108 130,104"
+          stroke="#1b1812" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+    <!-- body -->
+    <path d="M 62,126 C 58,102 78,84 100,86 C 122,88 132,104 126,124 C 120,142 68,144 62,126 Z"
+          fill="#17150f" stroke="#3a3320" stroke-width="1.4"/>
+
+    <!-- perked ear -->
+    <path d="M 78,88 C 72,72 84,66 90,78" fill="#17150f" stroke="#3a3320" stroke-width="1.4"/>
+    <!-- flopped ear -->
+    <path d="M 108,86 C 120,80 128,92 116,98" fill="#17150f" stroke="#3a3320" stroke-width="1.4"/>
+
+    <!-- mismatched eyes -->
+    <circle cx="82" cy="108" r="4.4" fill="#f0db4f" filter="url(#glow-js)"/>
+    <path d="M 100,108 Q 108,112 116,107" stroke="#f0db4f" stroke-width="2.6" fill="none" stroke-linecap="round" filter="url(#glow-js)"/>
+
+    <!-- crooked grin -->
+    <path d="M 80,122 Q 92,130 108,120" stroke="#7a7060" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+    <!-- legs, one lifted mid-mischief -->
+    <ellipse cx="70" cy="144" rx="8" ry="4" fill="#17150f"/>
+    <ellipse cx="102" cy="147" rx="8" ry="4" fill="#17150f" transform="rotate(-16 102 147)"/>
+  </g>
+
+  <!-- held curly brace -->
+  <g class="js-brace" filter="url(#glow-js)">
+    <path d="M 148,92 C 140,92 138,98 138,104 C 138,108 134,110 132,112 C 134,114 138,116 138,120 C 138,126 140,132 148,132"
+          fill="none" stroke="#f0db4f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

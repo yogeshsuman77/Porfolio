@@ -1,0 +1,24 @@
+<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(66,86)">
+    <!-- the tiny objects it guards -->
+    <circle cx="26" cy="10" r="5" fill="#211d16" stroke="#453f30" stroke-width="1"/>
+    <circle cx="34" cy="0" r="4" fill="#211d16" stroke="#453f30" stroke-width="1"/>
+    <circle cx="24" cy="-8" r="3.4" fill="#211d16" stroke="#453f30" stroke-width="1"/>
+
+    <!-- sturdy round body, low stance -->
+    <path d="M -28,8 C -32,-10 -16,-24 2,-22 C 20,-20 24,-4 20,10 C 16,22 -24,22 -28,8 Z"
+          fill="#1c1912" stroke="#4a4332" stroke-width="1.1"/>
+
+    <!-- small stubby shell ridges -->
+    <path d="M -14,-16 C -12,-8 -12,0 -14,8" stroke="#38332690" stroke-width="1.2" fill="none"/>
+    <path d="M 0,-19 C 2,-9 2,2 0,12" stroke="#38332690" stroke-width="1.2" fill="none"/>
+
+    <!-- calm watching eyes -->
+    <circle cx="-10" cy="-5" r="2.4" fill="#f1720c"/>
+    <circle cx="4" cy="-6" r="2.4" fill="#f1720c"/>
+
+    <!-- sturdy short legs -->
+    <ellipse cx="-16" cy="20" rx="6" ry="3" fill="#1c1912"/>
+    <ellipse cx="4" cy="21" rx="6" ry="3" fill="#1c1912"/>
+  </g>
+</svg>

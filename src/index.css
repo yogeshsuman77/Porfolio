@@ -1,0 +1,41 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.5; /* Improves readability */
+  -webkit-text-size-adjust: 100%; /* Prevents text inflation on mobile */
+}
+
+
+@font-face {
+  font-family: 'CastoroTitling';
+  src: url('./assets/fonts/CastoroTitling-Regular.ttf') format('truetype');
+  font-weight: 700; 
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Archivo';
+  src: url('./assets/fonts/Archivo-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root{
+    --color-1 : #F1720C;
+    --color-2 : #848484;
+
+    --font-1 : 'CastoroTitling';
+    --font-2 : 'Archivo';
+}
+
+
+
+img {
+  max-width: 100%; /* Ensures images are responsive */
+  display: block;
+}
+
+

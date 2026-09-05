@@ -1,0 +1,43 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow-express" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .express-wrench { animation: express-tighten 1.8s ease-in-out infinite; transform-origin: 168px 118px; }
+    .express-div { animation: express-shake 2.4s ease-in-out infinite; transform-origin: 150px 128px; }
+    @keyframes express-tighten { 0%,100% { transform: rotate(-16deg); } 50% { transform: rotate(6deg); } }
+    @keyframes express-shake { 0%,45%,55%,100% { transform: translateX(0); } 48% { transform: translateX(-1px); } 52% { transform: translateX(1px); } }
+    @media (prefers-reduced-motion: reduce) {
+      .express-wrench, .express-div { animation: none; }
+    }
+  </style>
+
+  <!-- the "div" it's servicing -->
+  <g class="express-div">
+    <rect x="132" y="118" width="36" height="24" rx="5" fill="none" stroke="#c9cdd3" stroke-width="2" stroke-opacity="0.85"/>
+    <path d="M 138,130 L 162,130" stroke="#c9cdd3" stroke-width="1.6" stroke-opacity="0.6"/>
+    <circle cx="168" cy="118" r="4.6" fill="none" stroke="#c9cdd3" stroke-width="1.6" stroke-opacity="0.8"/>
+  </g>
+
+  <!-- lean, low body -->
+  <path d="M 58,124 C 54,100 82,80 110,82 C 134,84 148,100 144,120 C 140,138 66,142 58,124 Z"
+        fill="#17150f" stroke="#3a3327" stroke-width="1.4"/>
+
+  <!-- single focused eye -->
+  <path d="M 76,108 L 96,108" stroke="#c9cdd3" stroke-width="3.4" stroke-linecap="round" filter="url(#glow-express)"/>
+
+  <!-- legs, mid-stride -->
+  <path d="M 66,138 L 58,152" stroke="#17150f" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 92,142 L 92,154" stroke="#17150f" stroke-width="6" stroke-linecap="round"/>
+  <path d="M 118,138 L 128,150" stroke="#17150f" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- arm + screwdriver, tightening the bolt on the div's corner -->
+  <path d="M 132,116 C 124,112 120,108 122,100" stroke="#17150f" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <g class="express-wrench" filter="url(#glow-express)">
+    <path d="M 122,100 L 168,118" stroke="#c9cdd3" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M 118,96 L 126,104" stroke="#c9cdd3" stroke-width="2.6" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow-node" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="2.6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .node-core { animation: node-pulse 3.2s ease-in-out infinite; transform-origin: 150px 118px; }
+    .node-bob { animation: node-bob 6s ease-in-out infinite; transform-origin: 95px 118px; }
+    @keyframes node-pulse { 0%,100% { opacity: 0.55; transform: scale(0.94); } 50% { opacity: 1; transform: scale(1.06); } }
+    @keyframes node-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
+    @media (prefers-reduced-motion: reduce) {
+      .node-core, .node-bob { animation: none; }
+    }
+  </style>
+
+  <!-- the glowing hexagonal core (Node's own mark), sitting beside it -->
+  <g class="node-core" filter="url(#glow-node)" fill="none" stroke="#5fc363" stroke-width="2.6">
+    <path d="M150,104 L163,111 L163,125 L150,132 L137,125 L137,111 Z"/>
+    <circle cx="150" cy="118" r="3" fill="#5fc363" stroke="none"/>
+  </g>
+
+  <g class="node-bob">
+    <!-- curled tail, reaching toward the core -->
+    <path d="M 118,132 C 134,136 142,124 132,112" stroke="#211f1b" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+    <!-- body -->
+    <ellipse cx="95" cy="118" rx="38" ry="32" fill="#17150f" stroke="#3a3327" stroke-width="1.4"/>
+    <!-- ear tufts -->
+    <path d="M 68,92 C 64,76 78,72 86,84" fill="#17150f" stroke="#3a3327" stroke-width="1.4"/>
+    <path d="M 122,92 C 126,76 112,72 104,84" fill="#17150f" stroke="#3a3327" stroke-width="1.4"/>
+
+    <!-- calm sleepy eyes -->
+    <path d="M 76,114 Q 84,121 92,114" stroke="#5fc363" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow-node)"/>
+    <path d="M 98,114 Q 106,121 114,114" stroke="#5fc363" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow-node)"/>
+
+    <!-- feet -->
+    <ellipse cx="78" cy="150" rx="9" ry="4.4" fill="#17150f"/>
+    <ellipse cx="112" cy="150" rx="9" ry="4.4" fill="#17150f"/>
+  </g>
+</svg>

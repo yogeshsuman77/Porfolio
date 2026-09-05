@@ -1,0 +1,24 @@
+<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(66,80)">
+    <!-- faint echo of itself, offset - suggesting another timeline -->
+    <g transform="translate(10,-6)" opacity="0.22">
+      <path d="M -16,-4 C -17,-16 -6,-24 6,-22 C 16,-20 19,-10 15,0 C 12,8 -14,8 -16,-4 Z" fill="#221f19"/>
+    </g>
+
+    <!-- branching tendrils -->
+    <path d="M -6,14 C -14,20 -20,20 -28,26" stroke="#221f19" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 0,16 C 0,24 2,28 2,36" stroke="#221f19" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 6,14 C 14,18 18,22 26,26" stroke="#221f19" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="-28" cy="26" r="2.2" fill="#221f19"/>
+    <circle cx="2" cy="36" r="2.2" fill="#221f19"/>
+    <circle cx="26" cy="26" r="2.2" fill="#221f19"/>
+
+    <!-- main body -->
+    <path d="M -18,4 C -19,-14 -6,-24 8,-22 C 20,-20 24,-8 19,4 C 15,14 -15,14 -18,4 Z"
+          fill="#1c1912" stroke="#463f2f" stroke-width="1"/>
+
+    <!-- one watchful eye -->
+    <circle cx="0" cy="-6" r="3" fill="#f1720c"/>
+    <circle cx="0" cy="-6" r="6" fill="none" stroke="#f1720c" stroke-width="0.6" opacity="0.4"/>
+  </g>
+</svg>

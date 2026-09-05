@@ -1,0 +1,136 @@
+.about {
+  position: relative;
+  background: var(--bg-void);
+  padding: clamp(120px, 16vw, 220px) 0;
+  overflow: hidden;
+}
+
+.about__stage {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  align-items: center;
+  gap: 24px;
+}
+
+.about__content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+}
+
+.about__lines {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(40px, 7vw, 92px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.about__line {
+  display: inline-block;
+}
+
+.about__body {
+  margin-top: 40px;
+  max-width: 58ch;
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.8;
+  color: var(--fg-muted);
+}
+
+.about__marks {
+  margin-top: 56px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-primary);
+  border-top: 1px solid #ffffff14;
+  padding-top: 24px;
+}
+
+.about__marks li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.about__marks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink);
+  transform: translateY(-50%);
+}
+
+/* The portrait bleeds toward the section's right edge, dissolving into
+   the dark background rather than sitting in a hard rectangle — a
+   presence in the environment, not a profile photo in a box. */
+.about__portrait {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3 / 4;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 22%,
+    black 78%,
+    transparent 100%
+  ), linear-gradient(to bottom, transparent 0%, black 14%, black 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 22%,
+    black 78%,
+    transparent 100%
+  ), linear-gradient(to bottom, transparent 0%, black 14%, black 88%, transparent 100%);
+  mask-composite: intersect;
+}
+
+.about__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) contrast(1.05);
+}
+
+.about__creature {
+  position: absolute;
+  z-index: 3;
+}
+
+.about__creature--javascript {
+  top: clamp(-30px, -4vw, 10px);
+  right: clamp(-40px, 4vw, 40px);
+}
+
+.about__creature--git {
+  bottom: clamp(-40px, -3vw, -10px);
+  left: clamp(-30px, -2vw, 4px);
+  opacity: 0.92;
+}
+
+@media (max-width: 900px) {
+  .about__stage {
+    grid-template-columns: 1fr;
+  }
+  .about__portrait {
+    display: none;
+  }
+}

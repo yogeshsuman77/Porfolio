@@ -1,0 +1,233 @@
+.projects {
+  position: relative;
+  background: var(--bg-deep);
+  padding: clamp(96px, 14vw, 220px) clamp(20px, 6vw, 96px) clamp(120px, 12vw, 180px);
+  overflow: hidden;
+}
+
+.projects__intro {
+  max-width: 720px;
+  margin: 0 auto clamp(80px, 12vw, 160px);
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.projects__intro h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.25;
+  color: var(--fg-primary);
+  margin-top: 14px;
+}
+
+.projects__list {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(90px, 12vw, 170px);
+}
+
+.project-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.project-item__grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 560px) 1fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+}
+
+/* Editorial asymmetry: width + horizontal placement vary by size/align */
+.project-item--lg { width: min(58%, 760px); }
+.project-item--md { width: min(46%, 620px); }
+.project-item--sm { width: min(36%, 480px); }
+
+.project-item--right { margin-left: auto; margin-right: clamp(0px, 4vw, 40px); }
+.project-item--left { margin-right: auto; margin-left: clamp(0px, 4vw, 40px); }
+.project-item--center { margin-left: auto; margin-right: auto; }
+
+/* Gentle vertical rhythm so the eye travels, not a rigid grid */
+.project-item:nth-child(2n) { margin-top: clamp(0px, 4vw, 60px); }
+.project-item:nth-child(3n) { margin-top: clamp(20px, 6vw, 100px); }
+
+.project-item__visual {
+  position: relative;
+}
+
+.project-item__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 46ch;
+}
+
+.project-item--right .project-item__meta,
+.project-item--center .project-item__meta {
+  align-items: flex-start;
+}
+
+.project-item__index {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--project-color, var(--ink));
+  opacity: 0.85;
+}
+
+.project-item__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: 0.02em;
+  color: var(--fg-primary);
+}
+
+.project-item__tagline {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--fg-muted);
+}
+
+.project-item__description {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  margin-top: 4px;
+}
+
+.project-item__tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  list-style: none;
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.project-item__tech li::before {
+  content: "\2014\a0";
+  color: var(--project-color, var(--ink));
+  opacity: 0.7;
+}
+
+.project-item__link {
+  margin-top: 6px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--fg-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  width: fit-content;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.project-item__link:hover {
+  border-color: var(--project-color, var(--fg-primary));
+  color: var(--project-color, var(--fg-primary));
+}
+
+@media (max-width: 900px) {
+  .project-item--lg,
+  .project-item--md,
+  .project-item--sm {
+    width: 100%;
+  }
+  .project-item--right,
+  .project-item--left,
+  .project-item--center {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .project-item:nth-child(2n),
+  .project-item:nth-child(3n) {
+    margin-top: 0;
+  }
+  .projects__list {
+    gap: 70px;
+  }
+  .project-item__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Single-project spotlight (no competing asymmetric neighbours to
+   balance against, so the side-by-side grid can breathe). Wider than
+   the old stacked version, but the image column itself stays capped
+   (see .project-item__grid) so the photo never dominates. */
+.projects__list--single .project-item--lg {
+  width: min(92%, 1280px);
+}
+
+.project-item__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  list-style: none;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+.project-item__highlights li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.project-item__highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--project-color, var(--ink));
+  opacity: 0.8;
+}
+
+@media (max-width: 900px) {
+  .projects__list--single .project-item--lg {
+    width: 100%;
+  }
+}
+
+/* Tiny inhabitants, tucked into the section's negative space. */
+.projects__creature {
+  position: absolute;
+  z-index: 3;
+}
+
+.projects__creature--react {
+  top: clamp(28px, 6vw, 64px);
+  left: clamp(8px, 3vw, 32px);
+}
+
+.projects__creature--mongodb {
+  bottom: clamp(16px, 4vw, 48px);
+  right: clamp(8px, 3vw, 32px);
+}
+
+@media (max-width: 720px) {
+  .projects__creature--react {
+    top: clamp(8px, 3vw, 20px);
+    left: clamp(4px, 2vw, 12px);
+  }
+  .projects__creature--mongodb {
+    bottom: clamp(8px, 3vw, 20px);
+    right: clamp(4px, 2vw, 12px);
+  }
+}

@@ -1,0 +1,21 @@
+:root {
+  /* Semantic aliases over the original brand tokens defined in index.css
+     (--color-1 / --color-2 / --font-1 / --font-2), so new sections read
+     with intent rather than raw hex values. */
+  --ink: var(--color-1);
+  --vein-color: #f1720c;
+  --font-display: var(--font-1);
+  --font-body: var(--font-2);
+
+  --bg-hero: var(--bg-void);
+  --bg-deep: rgba(16, 16, 16, 0.88);
+  --bg-void: rgba(8, 8, 8, 0.86);
+
+  --fg-primary: #f5f3ee;
+  --fg-muted: #8a8a86;
+  --fg-faint: #58585580;
+
+  --ease-cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --container-pad: clamp(20px, 6vw, 96px);
+}
