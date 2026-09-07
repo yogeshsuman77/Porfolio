@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import { FiMail, FiGithub, FiLinkedin } from "react-icons/fi";
 import useReducedMotion from "../../hooks/useReducedMotion";
 import useParallax from "../../hooks/useParallax";
 import portraitSeated from "../../assets/images/portrait/portrait-seated.webp";
@@ -11,13 +12,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 const links = [
   {
+    icon: FiMail,
     label: "Email",
     href: "mailto:sumanyogesh678@gmail.com",
     value: "sumanyogesh678@gmail.com",
   },
   // TODO: swap in the real GitHub/LinkedIn URLs — resume only listed link text, not hrefs.
-  { label: "GitHub", href: "https://github.com/yogeshsuman77", value: "github.com/yogeshsuman" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/yogesh-suman77/", value: "linkedin.com/in/yogeshsuman" },
+  { icon: FiGithub, label: "GitHub", href: "https://github.com/yogeshsuman77", value: "github.com/yogeshsuman" },
+  { icon: FiLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/yogesh-suman77/", value: "linkedin.com/in/yogeshsuman" },
 ];
 
 const POOL_TRIGGER = 0.55; // fire the ink once the pool has mostly formed
@@ -172,8 +174,10 @@ function Contact() {
       <ul className="contact__links" ref={linksRef}>
         {links.map((link) => (
           <li key={link.label}>
-            <a href={link.href} target="_blank" rel="noreferrer">
-              <span className="contact__link-label">{link.label}</span>
+            <a href={link.href} target="_blank" rel="noreferrer" aria-label={link.label}>
+              <span className="contact__link-icon">
+                <link.icon />
+              </span>
               <span className="contact__link-value">{link.value}</span>
             </a>
           </li>

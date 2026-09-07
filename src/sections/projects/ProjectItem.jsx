@@ -3,6 +3,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import ProjectImage from "../../components/ProjectReveal/ProjectImage";
 import useReducedMotion from "../../hooks/useReducedMotion";
+import { parallaxFactor } from "../../hooks/useParallax";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,8 +53,9 @@ function ProjectItem({ project, innerRef }) {
       scrub: 0.7,
       onUpdate: (self) => {
         const p = self.progress - 0.5;
-        gsap.set(visual, { y: p * -90 });
-        gsap.set(meta, { y: p * -240 });
+        const f = parallaxFactor();
+        gsap.set(visual, { y: p * -90 * f });
+        gsap.set(meta, { y: p * -240 * f });
       },
     });
     return () => trigger.kill();

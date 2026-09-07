@@ -5,60 +5,90 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
+  /* No pointer-events:none here on purpose — the page underneath must
+     stay genuinely inert (unscrollable, unclickable) while this is up,
+     not just visually covered. */
 }
 
 .loader__backdrop {
   position: absolute;
   inset: 0;
-  background: var(--bg-hero);
+  background: var(--bg-void);
 }
 
 .loader__loop {
   position: relative;
   z-index: 1;
-  width: 64px;
-  height: 64px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-}
-
-.loader__pulse {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--ink);
-  animation: loader-pulse 1.8s ease-in-out infinite;
+  gap: 28px;
 }
 
 .loader__ring {
   position: absolute;
-  inset: 0;
+  top: 50%;
+  left: 50%;
+  width: 96px;
+  height: 96px;
+  margin: -48px 0 0 -48px;
   border: 1px solid var(--ink);
   border-radius: 50%;
-  opacity: 0;
-  animation: loader-ring 1.8s ease-out infinite;
+  opacity: 0.35;
+  animation: loader-ring-pulse 2.4s ease-in-out infinite;
 }
 
-.loader__ring--delay {
-  animation-delay: 0.9s;
+.loader__mark {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(241, 114, 12, 0.35));
+  animation: loader-mark-breathe 2.4s ease-in-out infinite;
 }
 
-@keyframes loader-pulse {
-  0%, 100% { transform: scale(1); opacity: 0.55; }
-  50% { transform: scale(1.7); opacity: 1; }
+.loader__progress {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-@keyframes loader-ring {
-  0% { transform: scale(0.2); opacity: 0; }
-  15% { opacity: 0.5; }
-  100% { transform: scale(1); opacity: 0; }
+.loader__percent {
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.loader__bar {
+  width: 120px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.loader__bar-fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 0.25s ease-out;
+}
+
+@keyframes loader-ring-pulse {
+  0%, 100% { transform: scale(0.92); opacity: 0.2; }
+  50% { transform: scale(1.04); opacity: 0.45; }
+}
+
+@keyframes loader-mark-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .loader__pulse,
-  .loader__ring {
+  .loader__ring,
+  .loader__mark {
     animation: none;
   }
 }

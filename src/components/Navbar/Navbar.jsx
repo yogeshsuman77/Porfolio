@@ -22,8 +22,18 @@ const Navbar = () => {
       const currentY = window.scrollY
       setScrolled(currentY > 80)
 
-      const heroHeight = window.innerHeight // hero is 100vh
-      if (currentY < heroHeight) {
+      // Hero is 100vh on desktop but can grow taller than one screen on
+      // narrow viewports (stacked mobile layout) — measure the real
+      // element instead of assuming window.innerHeight, or this fires
+      // while still visually inside the hero on mobile.
+      const heroEl = document.querySelector('.hero')
+      const heroHeight = heroEl ? heroEl.offsetHeight : window.innerHeight
+
+      if (menuOpen) {
+        // Never auto-hide while the mobile panel is open — sliding the
+        // whole nav (panel included) off-screen mid-interaction would
+        // strand an open menu the user can't see or close.
+      } else if (currentY < heroHeight) {
         // Still inside the hero — always visible, no hide/show behavior yet.
         setHidden(false)
       } else if (currentY > lastY + 4) {
@@ -39,7 +49,7 @@ const Navbar = () => {
 
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [menuOpen])
 
   // Close the mobile panel automatically if the viewport grows back
   // past the breakpoint (e.g. rotating a tablet).

@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import useReducedMotion from "../../hooks/useReducedMotion";
-import useParallax from "../../hooks/useParallax";
+import useParallax, { parallaxFactor } from "../../hooks/useParallax";
 import portraitCinematic from "../../assets/images/portrait/portrait-cinematic.webp";
 import "./about.css";
 
@@ -91,7 +91,7 @@ function About() {
       start: "top bottom",
       end: "bottom top",
       scrub: 0.9,
-      onUpdate: (self) => gsap.set(portraitRef.current, { y: (self.progress - 0.5) * -220 }),
+      onUpdate: (self) => gsap.set(portraitRef.current, { y: (self.progress - 0.5) * -220 * parallaxFactor() }),
     });
 
     return () => {

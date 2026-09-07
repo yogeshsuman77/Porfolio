@@ -11,6 +11,14 @@
  * by scroll. When the clip ends, rendering simply stops — whatever
  * partial reveal the footage left behind is the final, permanent
  * state (no crossfade to a plain full-color image).
+ *
+ * `start()` is async and uses a cancellation token rather than only
+ * relying on removing event listeners: if `cancel()` is called while
+ * a `loadeddata`/`seeked` wait is still in flight, any callback that
+ * fires afterward checks the token and becomes a no-op instead of
+ * mutating the (now-irrelevant) shared <video> element's playback
+ * position — this is what caused the old version's flicker/stuck/
+ * flash-of-stale-frame bugs when a project was scrolled past quickly.
  */
 
 /** Computes an `object-fit: cover`-equivalent source rect so a drawn
@@ -28,6 +36,8 @@ function coverSourceRect(srcW, srcH, dstW, dstH) {
   return { sx: 0, sy: (srcH - sh) / 2, sw, sh };
 }
 
+const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
 export class VideoInkDiffusion {
   constructor({ canvas, video, colorImage, targetDuration = 2600 }) {
     this.canvas = canvas;
@@ -39,6 +49,7 @@ export class VideoInkDiffusion {
     this.onComplete = null;
     this._ended = false;
     this._lastRenderedTime = -1;
+    this._token = null;
   }
 
   resize(w, h, dpr = 1) {
@@ -55,37 +66,80 @@ export class VideoInkDiffusion {
     this.canvas.style.height = `${h}px`;
   }
 
-  start(onComplete) {
-    this.onComplete = onComplete;
-    this._ended = false;
-    this._lastRenderedTime = -1;
+  _waitForReady() {
     const video = this.video;
-
-    const begin = () => {
-      const rate = video.duration
-        ? Math.min(8, Math.max(1, video.duration / (this.targetDuration / 1000)))
-        : 1;
-      video.playbackRate = rate;
-      video.currentTime = 0;
-      video.play().catch(() => {
-        // Autoplay of a muted, user-triggered video should succeed almost
-        // everywhere; if it's blocked, just stop so the grayscale image
-        // is at least left in a clean, static state.
-        this._finish();
-      });
-      this._loop();
-    };
-
-    if (video.readyState >= 2) {
-      begin();
-    } else {
-      video.addEventListener("loadeddata", begin, { once: true });
+    if (video.readyState >= 2) return Promise.resolve();
+    return new Promise((resolve) => {
+      video.addEventListener("loadeddata", () => resolve(), { once: true });
       video.load();
-    }
+    });
   }
 
-  _loop = () => {
-    if (this._ended) return;
+  _seekToStart() {
+    const video = this.video;
+    return new Promise((resolve) => {
+      // If it's already effectively at 0 (e.g. never played), no real
+      // seek will happen and 'seeked' won't fire — don't wait forever.
+      if (video.currentTime === 0) {
+        resolve();
+        return;
+      }
+      const onSeeked = () => {
+        clearTimeout(fallback);
+        resolve();
+      };
+      // Some browsers are inconsistent about firing 'seeked' for a
+      // seek-to-current-position edge case, so this is a safety net,
+      // not the primary path.
+      const fallback = setTimeout(() => {
+        video.removeEventListener("seeked", onSeeked);
+        resolve();
+      }, 200);
+      video.addEventListener("seeked", onSeeked, { once: true });
+      video.currentTime = 0;
+    });
+  }
+
+  /** `onFirstFrame` fires only once the video is genuinely sitting at
+   * frame 0 and the canvas has been cleared of any previous run's
+   * pixels — the caller should reveal the canvas here, not before,
+   * or a stale final frame from a prior play-through can flash. */
+  async start(onFirstFrame) {
+    this._ended = false;
+    this._lastRenderedTime = -1;
+    const token = {};
+    this._token = token;
+    const video = this.video;
+
+    await this._waitForReady();
+    if (this._token !== token) return; // cancelled while waiting
+
+    video.pause();
+    await this._seekToStart();
+    if (this._token !== token) return; // cancelled while waiting
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    onFirstFrame?.();
+
+    const rate = video.duration ? clamp(video.duration / (this.targetDuration / 1000), 1, 8) : 1;
+    video.playbackRate = rate;
+
+    try {
+      await video.play();
+    } catch {
+      // Autoplay of a muted, user-triggered video should succeed almost
+      // everywhere; if it's blocked, just stop so the grayscale image
+      // is at least left in a clean, static state.
+      if (this._token === token) this._finish();
+      return;
+    }
+    if (this._token !== token) return; // cancelled during play() await
+
+    this._loop(token);
+  }
+
+  _loop = (token) => {
+    if (this._ended || this._token !== token) return;
     const video = this.video;
 
     if (video.ended || video.currentTime >= video.duration - 0.05) {
@@ -95,7 +149,7 @@ export class VideoInkDiffusion {
     }
 
     this._renderFrame();
-    this.raf = requestAnimationFrame(this._loop);
+    this.raf = requestAnimationFrame(() => this._loop(token));
   };
 
   _renderFrame() {
@@ -108,6 +162,7 @@ export class VideoInkDiffusion {
     const w = this.canvas.width;
     const h = this.canvas.height;
     const video = this.video;
+    if (!w || !h) return;
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, w, h);
@@ -158,8 +213,12 @@ export class VideoInkDiffusion {
     this.onComplete?.();
   }
 
+  /** Invalidates any in-flight async waits (loadeddata/seeked/play)
+   * immediately, so a callback that resolves after this point can
+   * never touch the shared <video> element on this instance's behalf. */
   cancel() {
     this._ended = true;
+    this._token = null;
     cancelAnimationFrame(this.raf);
     this.video.pause();
   }

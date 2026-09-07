@@ -8,7 +8,6 @@ import "./projectImage.css";
 gsap.registerPlugin(ScrollTrigger);
 
 const TRIGGER_PROGRESS = 0.4; // fire once the project has scrolled 40% through
-const RESET_PROGRESS = 0.28; // scrolling back above this re-arms it
 
 /**
  * A project photograph that begins fully desaturated. Once the viewer
@@ -20,8 +19,14 @@ const RESET_PROGRESS = 0.28; // scrolling back above this re-arms it
  * seconds, sped up from the source clip) rather than being tied to
  * further scroll input. When the clip ends, the reveal simply freezes
  * on that last frame rather than snapping to a plain full-color image.
- * Scrolling back up past the reset point resets it so scrolling down
- * re-triggers the moment.
+ *
+ * This plays exactly once per visit and is never reset or replayed —
+ * scrolling back and forth over it does nothing further. That's a
+ * deliberate simplification: the previous version re-armed itself on
+ * scroll-up and replayed on scroll-down again, which meant a quick
+ * scroll near the trigger point could restart the video mid-seek and
+ * produce a visible flash/flicker. One clean playthrough is worth
+ * more than a repeatable one that can glitch.
  */
 function ProjectImage({ project, dropOrigin = 0.015 }) {
   const wrapRef = useRef(null);
@@ -89,8 +94,13 @@ function ProjectImage({ project, dropOrigin = 0.015 }) {
         });
         inkRef.current = ink;
         resize();
-        canvas.style.opacity = "1";
-        ink.start(); // no onComplete — it freezes on the clip's last frame as-is
+        // Only reveal the canvas once VideoInkDiffusion confirms the
+        // video is genuinely sitting at frame 0 and the canvas has
+        // been cleared — this is what prevents a stale final frame
+        // from a hypothetical prior run flashing on screen.
+        ink.start(() => {
+          canvas.style.opacity = "1";
+        });
       };
 
       gsap.set(dropRef.current, { opacity: 1 });
@@ -125,17 +135,10 @@ function ProjectImage({ project, dropOrigin = 0.015 }) {
         .to(dropRef.current, { scaleX: 1.25, scaleY: 0.35, opacity: 0, duration: 0.16, ease: "power2.out" });
     };
 
-    const reset = () => {
-      inkRef.current?.cancel();
-      inkRef.current = null;
-      gsap.killTweensOf([dropRef.current, colorImg, canvas]);
-      gsap.set(dropRef.current, { xPercent: -50, opacity: 0, y: -80, scaleX: 1, scaleY: 1 });
-      gsap.set(colorImg, { opacity: 0 });
-      gsap.set(canvas, { opacity: 0 });
-      gsap.set(rippleRef.current, { attr: { r: 0 }, opacity: 0 });
-    };
-
-    reset();
+    gsap.set(dropRef.current, { xPercent: -50, opacity: 0, y: -80, scaleX: 1, scaleY: 1 });
+    gsap.set(colorImg, { opacity: 0 });
+    gsap.set(canvas, { opacity: 0 });
+    gsap.set(rippleRef.current, { attr: { r: 0 }, opacity: 0 });
 
     const trigger = ScrollTrigger.create({
       trigger: wrap,
@@ -145,9 +148,6 @@ function ProjectImage({ project, dropOrigin = 0.015 }) {
         if (!firedRef.current && self.progress >= TRIGGER_PROGRESS) {
           firedRef.current = true;
           runDropAndDiffuse();
-        } else if (firedRef.current && self.progress < RESET_PROGRESS) {
-          firedRef.current = false;
-          reset();
         }
       },
     });

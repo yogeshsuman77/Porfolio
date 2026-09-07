@@ -13,10 +13,22 @@ gsap.registerPlugin(ScrollTrigger);
  * just a scroll listener.
  *
  * `speed` can be negative (drifts up while scrolling down) or
- * positive (drifts down/lags behind). Small values (10–50) read as
- * "cinematic depth"; anything much bigger starts looking like a
- * glitch, per the brief's own "do NOT create extreme parallax" rule.
+ * positive (drifts down/lags behind). These are desktop-calibrated
+ * values; on narrower viewports the same pixel travel is proportionally
+ * much larger relative to the (shorter, tighter) layout, which is what
+ * was causing text/images to drift into each other on mobile — so the
+ * effective speed is scaled down automatically based on viewport width
+ * (see `parallaxFactor`), re-evaluated live on every scroll tick so a
+ * resize or orientation change is picked up immediately.
  */
+export function parallaxFactor() {
+  const w = window.innerWidth;
+  if (w <= 480) return 0.14;
+  if (w <= 768) return 0.3;
+  if (w <= 1024) return 0.6;
+  return 1;
+}
+
 export default function useParallax(ref, { speed = 24, trigger } = {}) {
   const reducedMotion = useReducedMotion();
 
@@ -30,7 +42,7 @@ export default function useParallax(ref, { speed = 24, trigger } = {}) {
       start: "top bottom",
       end: "bottom top",
       scrub: 0.7,
-      onUpdate: (self) => gsap.set(el, { y: (self.progress - 0.5) * speed }),
+      onUpdate: (self) => gsap.set(el, { y: (self.progress - 0.5) * speed * parallaxFactor() }),
     });
 
     return () => st.kill();
