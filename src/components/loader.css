@@ -10,10 +10,27 @@
      not just visually covered. */
 }
 
-.loader__backdrop {
+/* The actual full-screen cover. A tiny circle whose box-shadow spread
+   (100vmax — always bigger than the viewport diagonal) paints the
+   backdrop color across the entire screen. Scaling this element up
+   later is what reveals the page: the transparent circle itself grows
+   until it's larger than the viewport, at which point there's no
+   shadow left within view and the page shows through completely. This
+   has no dependency on any SVG/mask/url() resource resolving, unlike
+   the previous version — border-radius + box-shadow cannot silently
+   fail to render the way a referenced SVG mask sometimes did. */
+.loader__hole {
   position: absolute;
-  inset: 0;
-  background: var(--bg-void);
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 100vmax var(--bg-void);
+  transform: scale(1);
+  transform-origin: center;
 }
 
 .loader__loop {

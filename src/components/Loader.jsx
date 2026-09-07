@@ -51,13 +51,25 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
  * Holds the page — genuinely inert, not just visually covered — behind
  * a themed loop with a live progress readout until every image and ink
  * clip the experience needs is actually warm in the browser's cache,
- * then plays a single "the world opens" iris transition and unmounts.
+ * then plays a single "the world opens" reveal and unmounts.
+ *
+ * The full-screen cover is a plain `.loader__hole` element: a tiny
+ * circle whose `box-shadow` spreads out huge enough to blanket the
+ * entire viewport in the backdrop color. To reveal the page, its
+ * `scale` is animated up, so the *shadow* (which is what's actually
+ * covering the screen) shrinks back from covering everything down to
+ * nothing, while the circle itself grows into the "hole." This is
+ * intentionally not an SVG mask referenced by URL — that version had a
+ * real bug where the mask could fail to resolve on first paint in some
+ * browsers, leaving the page fully visible underneath the loading UI
+ * with no backdrop at all. `border-radius` + `box-shadow` can't fail
+ * to resolve the way a same-document `url(#id)` reference can.
  */
 function Loader() {
   const [visible, setVisible] = useState(true);
   const [ready, setReady] = useState(false);
   const [percent, setPercent] = useState(0);
-  const circleRef = useRef(null);
+  const holeRef = useRef(null);
   const loopRef = useRef(null);
   const reducedMotion = useReducedMotion();
 
@@ -107,37 +119,26 @@ function Loader() {
       return;
     }
 
-    const maxRadius = Math.hypot(window.innerWidth, window.innerHeight) * 0.58;
+    // The hole's base size is 16px (see loader.css) — scale it up until
+    // its diameter comfortably exceeds the viewport's diagonal, so by
+    // the time the tween finishes the "hole" itself covers the entire
+    // visible screen (the box-shadow doing the covering before that
+    // point is irrelevant once the hole itself is this big).
+    const diagonal = Math.hypot(window.innerWidth, window.innerHeight);
+    const targetScale = (diagonal / 16) * 1.3;
     const tl = gsap.timeline({ onComplete: () => setVisible(false) });
 
     // The mark gathers itself once, then the world opens outward from
     // that exact point — "a project opening," not a generic wipe.
     tl.to(loopRef.current, { scale: 0.6, opacity: 0, duration: 0.35, ease: "power2.in" })
-      .to(circleRef.current, { attr: { r: maxRadius }, duration: 1.1, ease: "power3.inOut" }, "-=0.05");
+      .to(holeRef.current, { scale: targetScale, duration: 1.1, ease: "power3.inOut" }, "-=0.05");
   }, [ready, reducedMotion]);
 
   if (!visible) return null;
 
-  const urlBase = typeof window !== "undefined" ? window.location.href.split("#")[0] : "";
-
   return (
     <div className="loader" aria-hidden="true">
-      <svg width="0" height="0" style={{ position: "absolute" }}>
-        <defs>
-          <mask id="loader-iris" maskContentUnits="userSpaceOnUse">
-            <rect x="-50%" y="-50%" width="200%" height="200%" fill="white" />
-            <circle ref={circleRef} cx="50%" cy="50%" r="0" fill="black" />
-          </mask>
-        </defs>
-      </svg>
-
-      <div
-        className="loader__backdrop"
-        style={{
-          maskImage: `url(${urlBase}#loader-iris)`,
-          WebkitMaskImage: `url(${urlBase}#loader-iris)`,
-        }}
-      />
+      <div ref={holeRef} className="loader__hole" />
 
       <div ref={loopRef} className="loader__loop">
         <span className="loader__ring" />
