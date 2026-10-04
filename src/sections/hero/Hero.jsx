@@ -26,7 +26,7 @@ function Hero() {
   // copy least of all — so leaving the hero itself feels layered
   // rather than the whole scene sliding off as one flat plane.
   useParallax(bgTextRef, { speed: 700 });
-  useParallax(avatarRef, { speed: 450 });
+  useParallax(avatarRef, { speed: 450, min: 0 });
   useParallax(contentsRef, { speed: 250 });
 
   useEffect(() => {

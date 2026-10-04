@@ -29,7 +29,7 @@ export function parallaxFactor() {
   return 1;
 }
 
-export default function useParallax(ref, { speed = 24, trigger } = {}) {
+export default function useParallax(ref, { speed = 24, trigger, min, max } = {}) {
   const reducedMotion = useReducedMotion();
 
   useEffect(() => {
@@ -42,10 +42,15 @@ export default function useParallax(ref, { speed = 24, trigger } = {}) {
       start: "top bottom",
       end: "bottom top",
       scrub: 0.7,
-      onUpdate: (self) => gsap.set(el, { y: (self.progress - 0.5) * speed * parallaxFactor() }),
+      onUpdate: (self) => {
+        let y = (self.progress - 0.5) * speed * parallaxFactor();
+        if (min !== undefined) y = Math.max(min, y);
+        if (max !== undefined) y = Math.min(max, y);
+        gsap.set(el, { y });
+      },
     });
 
     return () => st.kill();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reducedMotion, speed]);
+  }, [reducedMotion, speed, min, max]);
 }
